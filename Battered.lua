@@ -205,9 +205,7 @@ function Battered:BatteredArms(sunders)
 				return
 			end
 		end
-		
-		Battered:Sweeping()
-			
+	
 		c("Berserker Stance")
 		
 		Battered:Shout()
@@ -239,25 +237,24 @@ end
 
 
 function Battered:BatteredFury0()
-	Battered:BatteredZerk(0)
+	Battered:BatteredFury(0)
 end
 
 function Battered:BatteredFury2()
-	Battered:BatteredZerk(2)
+	Battered:BatteredFury(2)
 end
 
 function Battered:BatteredFury5()
-	Battered:BatteredZerk(5)
+	Battered:BatteredFury(5)
 end
 
-function Battered:BatteredFurysunders)
+function Battered:BatteredFury(sunders)
 	local c = CastSpellByName
 	if UnitClass("player") == "Warrior" then 
 	
 		Battered:AutoAttack()
 		
-		--Execute After Prot Stance so rage is not blown on a target before another, switch stance to execute or call manually
-		if (UnitHealth("target") / UnitHealthMax("target")) <= 0.2 and UnitMana("player") > 9 then 
+		if (UnitHealth("target") / UnitHealthMax("target")) <= 0.2 and UnitMana("player") > 80 then 
 			c("Execute") 
 			return
 		end
@@ -373,10 +370,10 @@ SLASH_BATTERED_ARMS2_SLASH1 = '/BatteredArms2'
 SlashCmdList['BATTERED_ARMS5_SLASH'] = Battered.BatteredArms5
 SLASH_BATTERED_ARMS5_SLASH1 = '/BatteredArms5'
 
-SlashCmdList['BATTERED_FURY_SLASH'] = Battered.BatteredFury0
+SlashCmdList['BATTERED_FURY0_SLASH'] = Battered.BatteredFury0
 SLASH_BATTERED_FURY0_SLASH1 = '/BatteredFury0'
 
-SlashCmdList['BATTERED_FURY_SLASH'] = Battered.BatteredFury2
+SlashCmdList['BATTERED_FURY2_SLASH'] = Battered.BatteredFury2
 SLASH_BATTERED_FURY2_SLASH1 = '/BatteredFury2'
 
 SlashCmdList['BATTERED_FURY5_SLASH'] = Battered.BatteredFury5
