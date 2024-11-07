@@ -130,6 +130,26 @@ function Battered:Shout()
 	return
 end
 
+function Battered:RemoveFuryHealBuffs()
+	if UnitClass("player") == "Warrior" then 
+		local i, b; 
+		for i = 1, 32 do 
+			b = UnitBuff("player", i); 
+			if b and strfind(b, "Spell_Shadow_SummonImp") then 
+				CancelPlayerBuff(i-1) 
+				return
+			elseif b and strfind(b, "Racial_Troll_Berserk") then
+				CancelPlayerBuff(i-1) 
+				return
+			end
+		end
+	end
+	return
+end
+
+
+
+
 function Battered:Sweeping()
 	if UnitClass("player") == "Warrior" then 
 		if Battered:GetSpell("Sweeping Strikes") and not Battered:GetBuff("player","Sweeping Strikes") then 
@@ -350,7 +370,8 @@ function Battered:BatteredDef()
 end
 
 
-
+SlashCmdList['BATTERED_RFHB_SLASH'] = Battered.RemoveFuryHealBuffs
+SLASH_BATTERED_RFHB_SLASH1 = '/BatteredRemoveFuryHealBuffs'
 
 SlashCmdList['BATTERED_AUTOATTACK_SLASH'] = Battered.AutoAttack
 SLASH_BATTERED_AUTOATTACK_SLASH1 = '/BatteredAutoAttack'
