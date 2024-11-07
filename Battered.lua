@@ -8,10 +8,7 @@ Battered:RegisterEvent("CHAT_MSG_COMBAT_SELF_MISSES")
 Battered:RegisterEvent("CHAT_MSG_SPELL_DAMAGESHIELDS_ON_SELF")
 Battered:RegisterEvent("ADDON_LOADED")
 Battered:SetScript("OnEvent", function()
-	if event == "ADDON_LOADED" and arg1 == "Battered" then
-		DEFAULT_CHAT_FRAME:AddMessage("|cff0066ff Battered system loaded, use /Battered ftw!|r")
-		Battered:UnregisterEvent("ADDON_LOADED")
-	elseif event == "CHAT_MSG_COMBAT_SELF_MISSES" then
+	if event == "CHAT_MSG_COMBAT_SELF_MISSES" then
 		if string.find(arg1,"dodge") then
 			Battered_Settings["dodge"] = GetTime()
 		end		
@@ -274,7 +271,7 @@ function Battered:BatteredFury(sunders)
 	
 		Battered:AutoAttack()
 		
-		if (UnitHealth("target") / UnitHealthMax("target")) <= 0.2 and UnitMana("player") > 80 then 
+		if (UnitHealth("target") / UnitHealthMax("target")) <= 0.2 and UnitMana("player") > 14 then 
 			c("Execute") 
 			return
 		end
