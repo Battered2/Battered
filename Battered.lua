@@ -101,6 +101,17 @@ function Battered:GetSpell(name)
 	return false
 end		
 
+function Battered:GetPlayerBuff(IconName)
+	local i, b; 
+	for i = 1, 32 do 
+		b = UnitBuff("player", i); 
+		if b and strfind(b, IconName) then 
+			return
+		end
+	end
+	return false
+end
+
 function Battered:AutoAttack()
 	for i=1,120 do 
 		if IsCurrentAction(i) then 
@@ -110,7 +121,6 @@ function Battered:AutoAttack()
 	CastSpellByName("Attack")
 	return
 end
-
 
 function Battered:Shout()
 	if UnitClass("player") == "Warrior" then 
@@ -144,9 +154,6 @@ function Battered:RemoveFuryHealBuffs()
 	return
 end
 
-
-
-
 function Battered:Sweeping()
 	if UnitClass("player") == "Warrior" then 
 		if Battered:GetSpell("Sweeping Strikes") and not Battered:GetBuff("player","Sweeping Strikes") then 
@@ -163,7 +170,6 @@ end
 
 
 function Battered:BatteredCleave()
-	local c = CastSpellByName
 	if UnitClass("player") == "Warrior" then 
 	
 		Battered:AutoAttack()
@@ -173,24 +179,24 @@ function Battered:BatteredCleave()
 		Battered:Sweeping()
 		
 		if Battered:GetSpell("Bloodrage") and UnitAffectingCombat("player") and UnitMana("player") < 40 and not Battered:OnCooldown("Bloodrage") then 
-			c("Bloodrage") 
+			CastSpellByName("Bloodrage") 
 			return
 		end
 		
-		c("Berserker Stance")
+		CastSpellByName("Berserker Stance")
 		
 		if Battered:GetSpell("Whirlwind") and not Battered:OnCooldown("Whirlwind") and UnitMana("player") > 24 then 
 			if CheckInteractDistance("target", 1 ) ~= nil then 
-				c("Whirlwind") 
+				CastSpellByName("Whirlwind") 
 				return
 			end 
 		end			
 	
-		c("Cleave")
+		CastSpellByName("Cleave")
+		
 		return
 	end
 end
-
 
 function Battered:BatteredArms0()
 	Battered:BatteredArms(0)
@@ -205,48 +211,45 @@ function Battered:BatteredArms5()
 end
 
 function Battered:BatteredArms(sunders)
-	local c = CastSpellByName
 	if UnitClass("player") == "Warrior" then 
 	
 		Battered:AutoAttack()
 		
 		if (UnitHealth("target") / UnitHealthMax("target")) <= 0.2 and UnitMana("player") > 80 then 
-			c("Execute") 
+			CastSpellByName("Execute") 
 			return
 		end
 		
 		if GetTime()-Battered_Settings["dodge"] < 5 then
 			if Battered:GetSpell("Overpower") and not Battered:OnCooldown("Overpower") and UnitMana("player") < 30 and UnitMana("player") > 4 then
-				c("Battle Stance");
-				c("Overpower")
+				CastSpellByName("Battle Stance");
+				CastSpellByName("Overpower")
 				return
 			end
 		end
 	
-		c("Berserker Stance")
+		CastSpellByName("Berserker Stance")
 		
 		Battered:Shout()
 		
 		if(sunders > 0) then
 			if not Battered:GetBuff("target","Sunder Armor") then
-				c("Sunder Armor")
-			else
-				if Battered:GetBuff("target","Sunder Armor",1) < sunders then
-					c("Sunder Armor")
-				end
+				CastSpellByName("Sunder Armor")
+			elseif Battered:GetBuff("target","Sunder Armor",1) < sunders then
+				CastSpellByName("Sunder Armor")
 			end
 		end
 		
 		if Battered:GetSpell("Bloodrage") and UnitAffectingCombat("player") and UnitMana("player") < 40 and not Battered:OnCooldown("Bloodrage") then 
-			c("Bloodrage") 
+			CastSpellByName("Bloodrage") 
 			return
 		end
 		
 		if Battered:GetSpell("Mortal Strike") and not Battered:OnCooldown("Mortal Strike") and UnitMana("player") > 29 then
-			c("Mortal Strike")
+			CastSpellByName("Mortal Strike")
 			return
 		elseif Battered:GetSpell("Slam") and UnitMana("player") > 29 then
-			c("Slam")
+			CastSpellByName("Slam")
 			return
 		end		
 	end
@@ -266,103 +269,88 @@ function Battered:BatteredFury5()
 end
 
 function Battered:BatteredFury(sunders)
-	local c = CastSpellByName
 	if UnitClass("player") == "Warrior" then 
 	
 		Battered:AutoAttack()
 		
 		if (UnitHealth("target") / UnitHealthMax("target")) <= 0.2 and UnitMana("player") > 14 then 
-			c("Execute") 
+			CastSpellByName("Execute") 
 			return
 		end
 
-		--If rage under 30 and dodged attack, swap and over power
 		if GetTime()-Battered_Settings["dodge"] < 5 then
 			if Battered:GetSpell("Overpower") and not Battered:OnCooldown("Overpower") and UnitMana("player") < 30 and UnitMana("player") > 4 then
-				c("Battle Stance");
-				c("Overpower")
+				CastSpellByName("Battle Stance");
+				CastSpellByName("Overpower")
 				return
 			end
 		end
 		
-		c("Berserker Stance")
+		CastSpellByName("Berserker Stance")
 		
 		Battered:Shout()
 		
 		if(sunders > 0) then
 			if not Battered:GetBuff("target","Sunder Armor") then
-				c("Sunder Armor")
-			else
-				if Battered:GetBuff("target","Sunder Armor",1) < sunders then
-					c("Sunder Armor")
-				end
+				CastSpellByName("Sunder Armor")
+			elseif Battered:GetBuff("target","Sunder Armor",1) < sunders then
+				CastSpellByName("Sunder Armor")
 			end
 		end
 		
 		if Battered:GetSpell("Bloodrage") and UnitAffectingCombat("player") and UnitMana("player") < 40 and not Battered:OnCooldown("Bloodrage") then 
-			c("Bloodrage") 
+			CastSpellByName("Bloodrage") 
 			return
 		end
 		
 		if Battered:GetSpell("Bloodthirst") and not Battered:OnCooldown("Bloodthirst") and UnitMana("player") > 29 then
-			c("Bloodthirst")
+			CastSpellByName("Bloodthirst")
 			return
 		elseif Battered:GetSpell("Whirlwind") and not Battered:OnCooldown("Whirlwind") and UnitMana("player") > 29 then 
 			if CheckInteractDistance("target", 1 ) ~= nil then 
-				c("Whirlwind") 
+				CastSpellByName("Whirlwind") 
 				return
 			end 
 		elseif Battered:GetSpell("Heroic Strike") and UnitMana("player") > 29 then
-				c("Heroic Strike")
+				CastSpellByName("Heroic Strike")
 				return
 		end		
 	end
 end
 
-
 function Battered:BatteredDef()
-	local c = CastSpellByName
 	if UnitClass("player") == "Warrior" then 
 	
 		Battered:AutoAttack()
 		
-		--If rage under 30 and dodged attack, swap and over power
-		if GetTime()-Battered_Settings["dodge"] < 5 then
-			if Battered:GetSpell("Overpower") and not Battered:OnCooldown("Overpower") and UnitMana("player") < 30 and UnitMana("player") > 4 then
-				c("Battle Stance");
-				c("Overpower")
-			end
-		end
-		
-		c("Defensive Stance")
-		
 		Battered:Shout()
 				
+		CastSpellByName("Defensive Stance")		
+				
+		CastSpellByName("Heroic Strike")		
+				
 		if Battered:GetSpell("Bloodrage") and UnitAffectingCombat("player") and UnitMana("player") < 40 and not Battered:OnCooldown("Bloodrage") then 
-			c("Bloodrage") 
+			CastSpellByName("Bloodrage") 
 			return
 		end
-		
-		if not Battered:GetBuff("target","Sunder Armor") then
-			c("Sunder Armor")
-		else
-			if Battered:GetBuff("target","Sunder Armor",1) < 5 then
-				c("Sunder Armor")
-			end
-		end
-		
-		if Battered:GetSpell("Bloodthirst") and not Battered:OnCooldown("Bloodthirst") and UnitMana("player") > 29 then
-			c("Bloodthirst")
+					
+		if Battered:GetSpell("Shield Slam") and not Battered:OnCooldown("Shield Slam") and UnitMana("player") > 19 then
+			CastSpellByName("Shield Slam")
 			return
-		elseif Battered:GetSpell("Heroic Strike") and UnitMana("player") > 29 then
-				c("Heroic Strike")
+		elseif Battered:OnCooldown("Shield Slam") and not Battered:OnCooldown("Shield Block") and UnitMana("player") > 19 and not Battered:GetPlayerBuff("ShieldMastery") then
+			CastSpellByName("Shield Block")
+			return
 		end	
 		
 		if Battered:GetSpell("Revenge") and not Battered:OnCooldown("Revenge") and UnitMana("player") > 4 then
-			c("Revenge")
-			return
+			CastSpellByName("Revenge")
 		end
 		
+		if not Battered:GetBuff("target","Sunder Armor") then
+			CastSpellByName("Sunder Armor")
+		elseif Battered:GetBuff("target","Sunder Armor",1) < 5 then
+			CastSpellByName("Sunder Armor")
+		end		
 	end
 end
 
