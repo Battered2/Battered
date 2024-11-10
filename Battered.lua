@@ -16,7 +16,9 @@ Battered:SetScript("OnEvent", function()
 		if string.find(arg1,"dodge") then
 			Battered_Settings["dodge"] = GetTime()
 		end
-	end
+	elseif event == "PLAYER_AURAS_CHANGED" and UnitName("target") and UnitName("target") == "Plaguebat" then  -- change name for testing purposes | Patchwerk
+		CancelFuryHealthBuff()
+	end	
 end)
 
 function Battered:GetBuff(name,buff,stacks)
@@ -153,6 +155,29 @@ function Battered:RemoveFuryHealBuffs()
 	end
 	return
 end
+
+function Battered:CancelFuryHealthBuff()
+    local buff = {"Spell_Shadow_SummonImp", "Racial_Troll_Berserk"}
+    local counter = 0
+    while GetPlayerBuff(counter) >= 0 do
+        local index, untilCancelled = GetPlayerBuff(counter)
+        if untilCancelled ~= 1 then  -- if it is 1 then it is not expiring like devotion aura for example
+            local texture = GetPlayerBuffTexture(index)
+            if texture then  -- Check if texture is not nil
+                local i = 1
+                while buff[i] do
+                    if string.find(texture, buff[i]) then
+                        CancelPlayerBuff(index)
+                        return
+                    end
+                    i = i + 1
+                end
+            end
+        end
+        counter = counter + 1
+    end
+    return nil
+end 
 
 function Battered:Sweeping()
 	if UnitClass("player") == "Warrior" then 
@@ -323,6 +348,12 @@ function Battered:BatteredDef()
 	
 		Battered:AutoAttack()
 		
+		if not Battered:GetBuff("target","Sunder Armor") then
+			CastSpellByName("Sunder Armor")
+		elseif Battered:GetBuff("target","Sunder Armor",1) < 2 then
+			CastSpellByName("Sunder Armor")
+		end
+		
 		Battered:Shout()
 				
 		CastSpellByName("Defensive Stance")		
@@ -346,9 +377,7 @@ function Battered:BatteredDef()
 			CastSpellByName("Revenge")
 		end
 		
-		if not Battered:GetBuff("target","Sunder Armor") then
-			CastSpellByName("Sunder Armor")
-		elseif Battered:GetBuff("target","Sunder Armor",1) < 5 then
+		if Battered:GetBuff("target","Sunder Armor",1) < 5 then
 			CastSpellByName("Sunder Armor")
 		end		
 	end
