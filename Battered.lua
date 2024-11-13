@@ -16,7 +16,7 @@ Battered:SetScript("OnEvent", function()
 		if string.find(arg1,"dodge") then
 			Battered_Settings["dodge"] = GetTime()
 		end
-	elseif event == "PLAYER_AURAS_CHANGED" and UnitName("target") and UnitName("target") == "Plaguebat" then  -- change name for testing purposes | Patchwerk
+	elseif event == "PLAYER_AURAS_CHANGED" and UnitName("target") and UnitName("target") == "Patchwerk" then  -- change name for testing purposes | Patchwerk Plaguebat
 		CancelFuryHealthBuff()
 	end	
 end)
