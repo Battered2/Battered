@@ -377,7 +377,9 @@ function Battered:BatteredDef()
 			CastSpellByName("Revenge")
 		end
 		
-		if Battered:GetBuff("target","Sunder Armor",1) < 5 then
+		if not Battered:GetBuff("target","Sunder Armor") then
+			CastSpellByName("Sunder Armor")
+		elseif Battered:GetBuff("target","Sunder Armor",1) < 5 then
 			CastSpellByName("Sunder Armor")
 		end		
 	end
