@@ -139,6 +139,14 @@ function Battered:Shout()
 	return
 end
 
+function Battered:BatteredSunders()
+	if not Battered:GetBuff("target","Sunder Armor") then
+		CastSpellByName("Sunder Armor")
+	elseif Battered:GetBuff("target","Sunder Armor",1) < 5 then
+		CastSpellByName("Sunder Armor")
+	end
+end
+
 function Battered:RemoveFuryHealBuffs()
 	if UnitClass("player") == "Warrior" then 
 		local i, b; 
@@ -192,7 +200,6 @@ function Battered:Sweeping()
 	end
 	return
 end
-
 
 function Battered:BatteredCleave()
 	if UnitClass("player") == "Warrior" then 
@@ -394,6 +401,12 @@ SLASH_BATTERED_AUTOATTACK_SLASH1 = '/BatteredAutoAttack'
 
 SlashCmdList['BATTERED_SHOUT_SLASH'] = Battered.Shout
 SLASH_BATTERED_SHOUT_SLASH1 = '/BatteredShout'
+
+SlashCmdList['BATTERED_SHOUT_SLASH'] = Battered.BatteredSunders
+SLASH_BATTERED_SHOUT_SLASH1 = '/BatteredSunders'
+
+SlashCmdList['BATTERED_SHOUT_SLASH'] = Battered.BatteredSunders
+SLASH_BATTERED_SHOUT_SLASH1 = '/B5S'
 
 SlashCmdList['BATTERED_CLEAVE_SLASH'] = Battered.BatteredCleave
 SLASH_BATTERED_CLEAVE_SLASH1 = '/BatteredCleave'
