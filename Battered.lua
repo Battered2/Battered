@@ -431,4 +431,3 @@ SLASH_BATTERED_FURY5_SLASH1 = '/BatteredFury5'
 
 SlashCmdList['BATTERED_DEF_SLASH'] = Battered.BatteredDef
 SLASH_BATTERED_DEF_SLASH1 = '/BatteredDef'
-
