@@ -247,7 +247,7 @@ function Battered:BatteredArms(sunders)
 	
 		Battered:AutoAttack()
 		
-		if (UnitHealth("target") / UnitHealthMax("target")) <= 0.2 and UnitMana("player") > 80 then 
+		if (UnitHealth("target") / UnitHealthMax("target")) <= 0.2 and UnitMana("player") > 14 then 
 			CastSpellByName("Execute") 
 			return
 		end
